@@ -20,6 +20,7 @@ export default function App() {
         <Route path="/theme-store" element={<h1>Theme Store Page</h1>} />
         <Route path="/leaderboard" element={<h1>Leaderboard Page</h1>} />
         <Route path="/about-us" element={<h1>About Us Page</h1>} />
+        <Route path="/login" element={<LoginPage />} />
 
       </Routes>
     
