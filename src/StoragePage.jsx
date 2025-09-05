@@ -1,198 +1,144 @@
-import React, {useState, useEffect} from "react";
-import "./StoragePage.css";
-import {ShoppingCart} from "lucide-react";
+import React, { useState } from 'react';
+import './StoragePage.css'; // Make sure this CSS file is in the same folder
 
-export default function StorePage() {
-  const [coins, setCoins] = useState(500);
-  const [ownedItems, setOwnedItems] = useState([]);
-  const [equippedItem, setEquippedItem] = useState(null);
-  const [playlistSongs, setPlaylistSongs] = useState(0); // slots available
-  const [songs, setSongs] = useState([]); // added songs
-  const [newSong, setNewSong] = useState(""); // input for new song
+// --- Mock Data for the Store ---
+// In a real app, you would fetch this from a server.
+const storeItems = [
+  { id: 'classic-clock', name: 'Classic Clock', type: 'Clock Style', price: 150, image: '🕰️' },
+  { id: 'digital-clock', name: 'Digital Clock', type: 'Clock Style', price: 200, image: '📟' },
+  { id: 'nature-bg', name: 'Nature Theme', type: 'Theme', price: 300, image: '🏞️' },
+  { id: 'galaxy-bg', name: 'Galaxy Theme', type: 'Theme', price: 350, image: '🌌' },
+  { id: 'lofi-beats', name: 'Lofi Beats Pack', type: 'Playlist', price: 100, image: '🎧' },
+  { id: 'ambient-sound', name: 'Ambient Sounds', type: 'Playlist', price: 100, image: '🎶' },
+];
 
-  const items = [
-    {id: 1, name: "Classic Clock", type: "Clock Style", price: 50},
-    {id: 2, name: "Minimal Clock", type: "Clock Style", price: 70},
-    {id: 3, name: "Digital Clock", type: "Clock Style", price: 100},
-    {id: 4, name: "Nature Background", type: "Background", price: 80},
-    {id: 5, name: "Galaxy Background", type: "Background", price: 120},
-    {id: 6, name: "5 Songs Playlist", type: "Playlist", price: 150},
-    {id: 7, name: "10 Songs Playlist", type: "Playlist", price: 250},
-  ];
 
-  // Load from localStorage
-  useEffect(() => {
-    const savedCoins = localStorage.getItem("coins");
-    const savedItems = localStorage.getItem("ownedItems");
-    const savedEquipped = localStorage.getItem("equippedItem");
-    const savedSongs = localStorage.getItem("songs");
-    const savedSlots = localStorage.getItem("playlistSongs");
+function StorePage() {
+  // --- State Management ---
+  const [coins, setCoins] = useState(1000);
+  const [purchasedItems, setPurchasedItems] = useState(new Set(['classic-clock'])); // User owns 'classic-clock' by default
+  const [equippedItems, setEquippedItems] = useState({
+    'Clock Style': 'classic-clock',
+    'Theme': '',
+    'Playlist': '',
+  });
+  const [songs, setSongs] = useState([]);
+  const [newSongUrl, setNewSongUrl] = useState('');
 
-    if (savedCoins) setCoins(parseInt(savedCoins, 10));
-    if (savedItems) setOwnedItems(JSON.parse(savedItems));
-    if (savedEquipped) setEquippedItem(parseInt(savedEquipped, 10));
-    if (savedSlots) setPlaylistSongs(parseInt(savedSlots, 10));
-    if (savedSongs) setSongs(JSON.parse(savedSongs));
-  }, []);
-
-  // Save to localStorage whenever state changes
-  useEffect(() => {
-    localStorage.setItem("coins", coins);
-    localStorage.setItem("ownedItems", JSON.stringify(ownedItems));
-    if (equippedItem !== null) {
-      localStorage.setItem("equippedItem", equippedItem);
-    }
-    localStorage.setItem("playlistSongs", playlistSongs);
-    localStorage.setItem("songs", JSON.stringify(songs));
-  }, [coins, ownedItems, equippedItem, playlistSongs, songs]);
-
-  // handle buying items
-  function handleBuy(item) {
-    if (ownedItems.includes(item.id)) {
-      alert("You already own this!");
-      return;
-    }
-
+  // --- Event Handlers ---
+  const handlePurchase = (item) => {
     if (coins >= item.price) {
       setCoins(coins - item.price);
-      setOwnedItems([...ownedItems, item.id]);
-
-      if (item.type === "Playlist") {
-        if (item.id === 6) {
-          setPlaylistSongs(playlistSongs + 5);
-        } else if (item.id === 7) {
-          setPlaylistSongs(playlistSongs + 10);
-        }
-      }
-
-      alert(`You bought ${item.name}!`);
+      setPurchasedItems(new Set(purchasedItems).add(item.id));
+      alert(`You have successfully purchased ${item.name}!`);
     } else {
-      alert("Not enough coins 😢");
+      alert("You don't have enough coins!");
     }
-  }
+  };
 
-  // handle equipping items
-  function handleEquip(item) {
-    if (!ownedItems.includes(item.id)) {
-      alert("You must buy this item first!");
-      return;
-    }
-    setEquippedItem(item.id);
-    alert(`You equipped ${item.name}!`);
-  }
+  const handleEquip = (item) => {
+    setEquippedItems({
+      ...equippedItems,
+      [item.type]: item.id,
+    });
+  };
 
-  function handleAddSong() {
-    if (!newSong.includes("spotify.com/track")) {
-      alert("Please enter a valid Spotify track link!");
-      return;
+  const handleAddSong = () => {
+    if (newSongUrl.trim() !== '') {
+      // Basic validation for YouTube links to get embeddable URL
+      const videoId = newSongUrl.split('v=')[1];
+      if (videoId) {
+        const embedUrl = `https://www.youtube.com/embed/${videoId.split('&')[0]}`;
+        setSongs([...songs, embedUrl]);
+        setNewSongUrl('');
+      } else {
+        alert('Please enter a valid YouTube video URL.');
+      }
     }
-    if (songs.length >= playlistSongs) {
-      alert("You don’t have free slots left!");
-      return;
-    }
-    setSongs([...songs, newSong]);
-    setNewSong("");
-  }
+  };
+
 
   return (
-    <div
-      className={`store-container ${equippedItem === 4 ? "nature-bg" : ""} ${
-        equippedItem === 5 ? "galaxy-bg" : ""
-      }`}
-    >
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="nav-logo">Pomodoro ⏱️</div>
+    <>
+      {/* ---- Navbar ---- */}
+      <nav className="navbar glass-card">
+        <div className="nav-logo">ProdHack</div>
         <ul className="nav-links">
-          <li>
-            <a href="/">Home</a>
-          </li>
-          <li>
-            <a href="/store">Store</a>
-          </li>
-          <li>
-            <a href="/profile">Profile</a>
-          </li>
+          <li><a href="#">Timer</a></li>
+          <li><a href="#">Store</a></li>
+          <li><a href="#">Profile</a></li>
         </ul>
         <div className="nav-coins">
-          <span>{coins} 🪙</span>
-          <span>
-            {songs.length}/{playlistSongs} 🎵
-          </span>
+          <span>💎</span> {coins}
         </div>
       </nav>
 
-      {/* Store Section */}
-      <h1 className="store-title">🛒 Pomodoro Store</h1>
+      {/* ---- Main Store Container ---- */}
+      <div className="store-container">
+        <h1 className="store-title">Welcome to the Store</h1>
 
-      <div className="items-grid">
-        {items.map((item) => (
-          <div className="item-card" key={item.id}>
-            <h2 className="item-name">{item.name}</h2>
-            <p className="item-type">{item.type}</p>
-            <p className="item-price">{item.price} 🪙</p>
+        {/* ---- Items Grid ---- */}
+        <div className="items-grid">
+          {storeItems.map((item) => {
+            const isPurchased = purchasedItems.has(item.id);
+            const isEquipped = equippedItems[item.type] === item.id;
 
-            {!ownedItems.includes(item.id) ? (
-              <button className="buy-button" onClick={() => handleBuy(item)}>
-                <ShoppingCart size={18} /> Buy
-              </button>
-            ) : (
-              <button
-                className={`equip-button ${
-                  equippedItem === item.id ? "equipped" : ""
-                }`}
-                onClick={() => handleEquip(item)}
-                disabled={item.type === "Playlist"}
-              >
-                {item.type === "Playlist"
-                  ? "Owned ✅"
-                  : equippedItem === item.id
-                  ? "Equipped ✅"
-                  : "Equip"}
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Playlist Manager */}
-      {/* Playlist Manager */}
-      <div className="playlist-section">
-        <h2>Your Playlist 🎶</h2>
-        <input
-          type="text"
-          placeholder="Enter Spotify track link"
-          value={newSong}
-          onChange={(e) => setNewSong(e.target.value)}
-        />
-        <button className="add-song-btn" onClick={handleAddSong}>
-          Add Song
-        </button>
-
-        <ul className="song-list">
-          {songs.map((song, idx) => (
-            <li key={idx}>
-              <p>Song {idx + 1}</p>
-              <iframe
-                src={song.replace(
-                  "open.spotify.com/track",
-                  "open.spotify.com/embed/track"
+            return (
+              <div key={item.id} className="item-card glass-card">
+                <div style={{ fontSize: '4rem', margin: '10px 0' }}>{item.image}</div>
+                <h3 className="item-name">{item.name}</h3>
+                <p className="item-type">{item.type}</p>
+                
+                {isPurchased ? (
+                  <button
+                    onClick={() => handleEquip(item)}
+                    className={`btn equip-button ${isEquipped ? 'equipped' : ''}`}
+                  >
+                    {isEquipped ? 'Equipped' : 'Equip'}
+                  </button>
+                ) : (
+                  <button onClick={() => handlePurchase(item)} className="btn buy-button">
+                    Buy for {item.price} 💎
+                  </button>
                 )}
-                width="100%"
-                height="80"
-                frameBorder="0"
-                allow="encrypted-media"
-                title={`Spotify Track ${idx + 1}`}
-              ></iframe>
-            </li>
-          ))}
-        </ul>
-      </div>
+              </div>
+            );
+          })}
+        </div>
 
-      {/* Footer */}
-      <footer className="footer">
-        <p>✨ Made with ❤️ for your productivity ✨</p>
-      </footer>
-    </div>
+        {/* ---- Playlist Section ---- */}
+        <div className="playlist-section glass-card">
+          <h2 className="store-title" style={{ fontSize: '28px', margin: '0 0 20px 0' }}>Your Playlist</h2>
+          <div>
+            <input
+              type="text"
+              placeholder="Paste a YouTube video URL here..."
+              value={newSongUrl}
+              onChange={(e) => setNewSongUrl(e.target.value)}
+            />
+            <button className="btn add-song-btn" onClick={handleAddSong}>Add Song</button>
+          </div>
+          <ul className="song-list">
+            {songs.length > 0 ? (
+              songs.map((songUrl, index) => (
+                <li key={index}>
+                  <iframe
+                    src={songUrl}
+                    title={`song-${index}`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </li>
+              ))
+            ) : (
+              <p>Your playlist is empty. Add some songs!</p>
+            )}
+          </ul>
+        </div>
+      </div>
+    </>
   );
 }
+
+export default StorePage;
