@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
 
 
 // 4. START THE SERVER
-const PORT = process.env.PORT || 3002; // Use a different port
+const PORT = process.env.PORT || 3001; // Use a different port
 server.listen(PORT, () => {
   console.log(`Backend server is running on http://localhost:${PORT}`);
 });
