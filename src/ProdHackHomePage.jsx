@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { Timer, Zap, Trophy, Users, Sparkles } from "lucide-react";
 import logo from "./assets/logo.svg";
 import "./ProdHackHomePage.css";
-import LoginPage from "./LoginPage";
 
 // Data for features, stats, and footer links
 const featuresData = [
@@ -58,9 +57,7 @@ export default function ProdHackHomePage() {
                 <span className="nav-underline"></span>
               </NavLink>
             ))}
-            <NavLink to="/login" className="nav-link">
             <button className="btn-primary">Login/Sign Up</button>
-            </NavLink>
           </nav>
         </div>
       </header>
