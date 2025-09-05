@@ -1,0 +1,205 @@
+/* 🌸 Background */
+body {
+  margin: 0;
+  background: linear-gradient(120deg, #fbc2eb, #a6c1ee, #fdfbfb, #e6dee9);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 🌸 Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 14px 28px;
+  border-radius: 40px;
+  margin: 20px auto;
+  width: 80%;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 25px rgba(166, 193, 238, 0.3);
+  position: sticky;
+  top: 15px;
+  z-index: 100;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links li a {
+  position: relative;
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.nav-links li a:hover {
+  color: #6a11cb;
+}
+
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+.nav-coins {
+  font-weight: 700;
+  font-size: 16px;
+  background: linear-gradient(135deg, #fdfbfb, #a6c1ee);
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(166, 193, 238, 0.4);
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 🌸 Store Section */
+.store-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.store-title {
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+/* 🌸 Items Grid */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 28px;
+  margin: 0 auto;
+  width: 80%;
+}
+
+/* 🌸 Item Card */
+.item-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(166, 193, 238, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.item-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(166, 193, 238, 0.5);
+}
+
+.item-image {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.item-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 8px 0;
+}
+
+.item-type {
+  font-size: 14px;
+  color: #777;
+}
+
+.item-price {
+  font-size: 16px;
+  margin: 12px 0;
+  font-weight: bold;
+  color: #444;
+}
+
+/* 🌸 Buy Button */
+.buy-button {
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(166, 193, 238, 0.4);
+}
+
+.buy-button:hover {
+  background: linear-gradient(135deg, #a6c1ee, #fbc2eb);
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(166, 193, 238, 0.6);
+}
+
+/* 🌸 Footer */
+.footer {
+  margin-top: 60px;
+  padding: 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+  border-top: 2px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 20px 20px 0 0;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 -4px 15px rgba(166, 193, 238, 0.3);
+}
+
+.footer p {
+  font-size: 14px;
+  color: #555;
+}
+
+.footer span {
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+
+
+
