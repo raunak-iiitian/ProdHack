@@ -1,33 +1,12 @@
-# ProdHack
+# React + Vite
 
-ProdHack is a full-stack web application designed to [briefly describe purpose, e.g., "help users track productivity and manage projects efficiently"].
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
+Currently, two official plugins are available:
 
-- User authentication (login/signup)
-- Dashboard to manage projects/tasks
-- Real-time updates
-- Responsive design
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Tech Stack
+## Expanding the ESLint configuration
 
-- **Frontend:** React, Vite
-- **Backend:** Node.js, Express
-- **Database:** [Your DB, e.g., MongoDB/MySQL]
-- **Others:** JWT for authentication, Axios for API calls
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js v18+  
-- npm or yarn  
-- [Database setup if needed]
-
-### Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/your-username/ProdHack.git
-cd ProdHack
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
