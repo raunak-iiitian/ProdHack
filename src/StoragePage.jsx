@@ -1,8 +1,15 @@
 import React from "react";
+import React, {useState} from "react";
 import "./StoragePage.css";
 import { ShoppingCart } from "lucide-react";
 
 export default function StorePage() {
+
+  const [coins, setCoins] = useState(500);
+
+  const [ownedItems, setOwnedItems] = useState([]);
+
+  const [equippedBackground, setEquippedBackground] = useState(null);
   const items = [
     { id: 1, name: "Classic Clock", type: "Clock Style", price: 50 },
     { id: 2, name: "Minimal Clock", type: "Clock Style", price: 70 },
