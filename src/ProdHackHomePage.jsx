@@ -1,6 +1,27 @@
 import { useState, useEffect } from "react";
-import { Timer, Zap, Trophy, Users, Brain, Sparkles } from "lucide-react";
-import "./ProdHackHomePage.css"; // External CSS only
+import { NavLink } from "react-router-dom"; // Fixed: Added NavLink import
+import { Timer, Zap, Trophy, Users, Sparkles } from "lucide-react";
+import logo from "./assets/logo.svg"; // Fixed: Correctly importing the logo image
+import "./ProdHackHomePage.css";
+
+// Data for features, stats, and footer links is moved outside the component for better readability
+const featuresData = [
+  { icon: Timer, title: "Smart Timer Sessions", description: "Pomodoro technique enhanced with AI-powered break suggestions and focus optimization", color: "feature-pink" },
+  { icon: Trophy, title: "Competitive Battles", description: "Challenge friends and colleagues in productivity battles with real-time leaderboards", color: "feature-blue" },
+  { icon: Zap, title: "Achievement System", description: "Unlock badges, level up your productivity stats, and track your growth over time", color: "feature-yellow" },
+];
+
+const statsData = [
+  { number: "50K+", label: "Active Users" },
+  { number: "2M+", label: "Sessions Completed" },
+  { number: "95%", label: "Productivity Increase" },
+];
+
+const footerSections = [
+  { title: "Product", links: ["Features", "Pricing", "Updates", "Beta"] },
+  { title: "Community", links: ["Discord", "Forums", "Leaderboards", "Events"] },
+  { title: "Support", links: ["Help Center", "Contact", "Bug Reports", "Feature Requests"] },
+];
 
 export default function ProdHackHomePage() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,45 +32,51 @@ export default function ProdHackHomePage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navLinks = {
+    "1 vs 1": "/OneOne",
+    "Theme Store": "/theme-store",
+    "Leaderboard": "/leaderboard",
+    "About Us": "/about-us",
+  };
+  
+  // Fixed: Defined navItems from the keys of the navLinks object
+  const navItems = Object.keys(navLinks);
+
   return (
     <div className="homepage">
       {/* Header */}
       <header className={`header ${isScrolled ? "header-scrolled" : ""}`}>
         <div className="header-container">
           <div className="logo">
-            <img src= "/src/assets/logo.svg" alt="ProdHack Logo" className="logo-img" />
+            <img src={logo} alt="ProdHack Logo" className="logo-img" />
           </div>
           <h1>ProdHack</h1>
-
           <nav className="nav">
-            {["1 vs 1", "Theme Store", "Leaderboard", "About Us"].map((item) => (
-              <a key={item} href="#" className="nav-link">
+            {navItems.map((item) => (
+              <NavLink key={item} to={navLinks[item]} className="nav-link">
                 {item}
                 <span className="nav-underline"></span>
-              </a>
+              </NavLink>
             ))}
             <button className="btn-primary">Login/Sign Up</button>
           </nav>
         </div>
       </header>
 
-      {/* Main */}
+      {/* Main Content */}
       <main className="main">
-        {/* Hero */}
+        {/* Hero Section */}
         <section className="hero">
           <div className="hero-title-container">
             <h1 className="hero-title">
-              Hack Your{" "}
-              <span className="gradient-text">Productivity</span>
+              Hack Your <span className="gradient-text">Productivity</span>
             </h1>
           </div>
-
           <p className="hero-subtitle">
             Transform your work sessions into competitive battles. Timer
             sessions, leaderboards, and achievement systems that make
             productivity addictive.
           </p>
-
           <div className="hero-buttons">
             <button className="btn-primary pulse">
               <Sparkles className="inline-icon" />
@@ -57,32 +84,8 @@ export default function ProdHackHomePage() {
             </button>
             <button className="btn-secondary">Watch Demo</button>
           </div>
-
-          {/* Features */}
           <div className="features">
-            {[
-              {
-                icon: Timer,
-                title: "Smart Timer Sessions",
-                description:
-                  "Pomodoro technique enhanced with AI-powered break suggestions and focus optimization",
-                color: "feature-pink",
-              },
-              {
-                icon: Trophy,
-                title: "Competitive Battles",
-                description:
-                  "Challenge friends and colleagues in productivity battles with real-time leaderboards",
-                color: "feature-blue",
-              },
-              {
-                icon: Zap,
-                title: "Achievement System",
-                description:
-                  "Unlock badges, level up your productivity stats, and track your growth over time",
-                color: "feature-yellow",
-              },
-            ].map((feature, index) => (
+            {featuresData.map((feature, index) => (
               <div key={index} className="feature-card">
                 <div className={`feature-icon ${feature.color}`}>
                   <feature.icon className="icon-white" />
@@ -94,16 +97,12 @@ export default function ProdHackHomePage() {
           </div>
         </section>
 
-        {/* Stats */}
+        {/* Stats Section */}
         <section className="stats">
           <div className="stats-container">
             <h2 className="stats-title">Join the Productivity Revolution</h2>
             <div className="stats-grid">
-              {[
-                { number: "50K+", label: "Active Users" },
-                { number: "2M+", label: "Sessions Completed" },
-                { number: "95%", label: "Productivity Increase" },
-              ].map((stat, index) => (
+              {statsData.map((stat, index) => (
                 <div key={index} className="stat">
                   <div className="stat-number">{stat.number}</div>
                   <div className="stat-label">{stat.label}</div>
@@ -113,7 +112,7 @@ export default function ProdHackHomePage() {
           </div>
         </section>
 
-        {/* CTA */}
+        {/* CTA Section */}
         <section className="cta">
           <div className="cta-container">
             <h2 className="cta-title">Ready to Level Up?</h2>
@@ -123,7 +122,7 @@ export default function ProdHackHomePage() {
             </p>
             <button className="btn-primary pulse">
               <Users className="inline-icon-lg" />
-               &nbsp; &nbsp;Join ProdHack Today
+              &nbsp; &nbsp;Join ProdHack Today
             </button>
           </div>
         </section>
@@ -135,7 +134,7 @@ export default function ProdHackHomePage() {
           <div className="footer-grid">
             <div className="footer-about">
               <div className="footer-logo">
-                <img src= "/src/assets/logo.svg" alt="ProdHack Logo" className="logo-img" />
+                <img src={logo} alt="ProdHack Logo" className="logo-img" />
                 <h2>ProdHack</h2>
               </div>
               <p className="footer-text">
@@ -143,21 +142,7 @@ export default function ProdHackHomePage() {
                 competitive engagement.
               </p>
             </div>
-
-            {[
-              {
-                title: "Product",
-                links: ["Features", "Pricing", "Updates", "Beta"],
-              },
-              {
-                title: "Community",
-                links: ["Discord", "Forums", "Leaderboards", "Events"],
-              },
-              {
-                title: "Support",
-                links: ["Help Center", "Contact", "Bug Reports", "Feature Requests"],
-              },
-            ].map((section, index) => (
+            {footerSections.map((section, index) => (
               <div key={index}>
                 <h4 className="footer-title">{section.title}</h4>
                 <ul className="footer-links">
@@ -172,7 +157,6 @@ export default function ProdHackHomePage() {
               </div>
             ))}
           </div>
-
           <div className="footer-bottom">
             <p className="footer-copy">
               © 2025 ProdHack. Made with 💜 for productive humans.
