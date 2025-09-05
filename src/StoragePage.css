@@ -184,6 +184,55 @@ body {
   font-size: 14px;
 }
 
+.playlist-section {
+  margin: 40px auto;
+  width: 80%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
 
+.playlist-section input {
+  padding: 10px;
+  width: 60%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+.add-song-btn {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.add-song-btn:hover {
+  transform: scale(1.05);
+}
+
+.song-list {
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.song-list li {
+  margin: 10px 0;
+  background: rgba(240, 240, 240, 0.8);
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.song-list li iframe {
+  border-radius: 12px;
+  margin-top: 8px;
+}
 
 
