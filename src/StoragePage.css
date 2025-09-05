@@ -1,11 +1,13 @@
-/* 🌸 Background */
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+
 body {
   margin: 0;
+  font-family: "Fredericka the Great", serif;
+  font-weight: 400;
+  font-style: normal;
   background: linear-gradient(120deg, #fbc2eb, #a6c1ee, #fdfbfb, #e6dee9);
   background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-  font-family: "Poppins", sans-serif;
-  color: #333;
+  animation: gradientShift 12s ease infinite;
 }
 
 @keyframes gradientShift {
@@ -14,27 +16,27 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* 🌸 Navbar */
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.6);
-  padding: 14px 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+  padding: 14px 24px;
   border-radius: 40px;
   margin: 20px auto;
   width: 80%;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 8px 25px rgba(166, 193, 238, 0.3);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 15px;
   z-index: 100;
 }
 
 .nav-logo {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  background: linear-gradient(135deg, #f857a6, #ff5858);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -50,93 +52,69 @@ body {
 .nav-links li a {
   position: relative;
   text-decoration: none;
-  color: #444;
+  color: #333;
   font-weight: 500;
   font-size: 16px;
   transition: color 0.3s ease;
 }
 
-.nav-links li a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0%;
-  height: 2px;
-  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
-  transition: width 0.3s ease;
-  border-radius: 2px;
-}
-
 .nav-links li a:hover {
-  color: #6a11cb;
-}
-
-.nav-links li a:hover::after {
-  width: 100%;
+  color: #ff5858;
 }
 
 .nav-coins {
   font-weight: 700;
   font-size: 16px;
-  background: linear-gradient(135deg, #fdfbfb, #a6c1ee);
+  background: #fff;
   padding: 6px 14px;
   border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(166, 193, 238, 0.4);
+  box-shadow: 0 4px 12px rgba(248, 87, 166, 0.3);
   color: #333;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-/* 🌸 Store Section */
+/* Store Section */
 .store-container {
   padding: 20px;
   text-align: center;
 }
 
 .store-title {
-  font-size: 32px;
-  margin-bottom: 40px;
+  font-size: 28px;
+  margin: 50px 0;
   color: #333;
 }
 
-/* 🌸 Items Grid */
+/* Items Grid */
 .items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 28px;
+  gap: 25px;
   margin: 0 auto;
   width: 80%;
 }
 
-/* 🌸 Item Card */
+/* Item Card */
 .item-card {
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  padding: 24px;
+  border-radius: 16px;
+  padding: 20px;
   text-align: center;
-  box-shadow: 0 8px 22px rgba(166, 193, 238, 0.3);
-  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
 }
 
 .item-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(166, 193, 238, 0.5);
-}
-
-.item-image {
-  width: 130px;
-  height: 130px;
-  object-fit: contain;
-  margin-bottom: 16px;
+  transform: translateY(-8px);
 }
 
 .item-name {
   font-size: 18px;
+  margin: 6px 0;
   font-weight: 600;
   color: #333;
-  margin: 8px 0;
 }
 
 .item-type {
@@ -146,58 +124,64 @@ body {
 
 .item-price {
   font-size: 16px;
-  margin: 12px 0;
+  margin: 10px 0;
   font-weight: bold;
   color: #444;
 }
 
-/* 🌸 Buy Button */
+/* Buttons */
 .buy-button {
-  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
-  color: #fff;
+  background: linear-gradient(135deg, #f857a6, #ff5858);
+  color: white;
   border: none;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   width: 100%;
   font-weight: 600;
-  font-size: 15px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(166, 193, 238, 0.4);
+  transition: all 0.3s;
 }
 
 .buy-button:hover {
-  background: linear-gradient(135deg, #a6c1ee, #fbc2eb);
   transform: scale(1.05);
-  box-shadow: 0 6px 18px rgba(166, 193, 238, 0.6);
 }
 
-/* 🌸 Footer */
+.equip-button {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.equip-button.equipped {
+  background: linear-gradient(135deg, #ff9966, #ff5e62);
+}
+
+/* Equipped Backgrounds */
+.nature-bg {
+  background: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80") no-repeat center center/cover;
+}
+
+.galaxy-bg {
+  background: url("https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80") no-repeat center center/cover;
+}
+
+/* Footer */
 .footer {
-  margin-top: 60px;
+  margin-top: 50px;
   padding: 20px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.5);
-  border-top: 2px solid rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  border-radius: 20px 20px 0 0;
+  background: rgba(255,255,255,0.7);
+  border-radius: 16px;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0 -4px 15px rgba(166, 193, 238, 0.3);
-}
-
-.footer p {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   font-size: 14px;
-  color: #555;
-}
-
-.footer span {
-  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 600;
 }
 
 
