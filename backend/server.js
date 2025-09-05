@@ -1,33 +1,39 @@
 // 1. IMPORTS AND SETUP
 const express = require('express');
-const http =require('http');
+const http = require('http');
 const { Server } = require("socket.io");
 const cors = require('cors');
 const multer = require('multer');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-require('dotenv').config(); // Load environment variables from .env file
+const connectDB = require('./db'); // <-- IMPORT DATABASE CONNECTION
+const authRoutes = require('./routes/auth'); // <-- IMPORT AUTH ROUTES
+require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
 
-// Use CORS to allow your frontend to communicate with this backend
-app.use(cors({ origin: "http://localhost:5174" })); // IMPORTANT: Replace with your React app's URL
+// Connect to Database
+connectDB(); // <-- CALL THE CONNECTION FUNCTION
+
+// Init Middleware
+app.use(express.json()); // <-- ADD THIS to parse JSON request bodies
+app.use(cors({ origin: "http://localhost:5173" }));
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5174", // IMPORTANT: Replace with your React app's URL
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"]
   }
 });
 
-// Configure Multer for in-memory file storage
 const upload = multer({ storage: multer.memoryStorage() });
-
-// Initialize Google Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 
-// 2. API ROUTE FOR PDF ANALYSIS
+// 2. DEFINE ROUTES
+app.use('/api/auth', authRoutes); // <-- USE YOUR AUTH ROUTES
+
+// API ROUTE FOR PDF ANALYSIS
 app.post('/api/analyze-pdf', upload.single('pdfFile'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded.' });
@@ -54,7 +60,7 @@ app.post('/api/analyze-pdf', upload.single('pdfFile'), async (req, res) => {
     const responseText = result.response.text().replace(/```json|```/g, '').trim();
     const jsonData = JSON.parse(responseText);
     
-    res.json(jsonData); // Send the structured JSON back to the frontend
+    res.json(jsonData);
 
   } catch (error) {
     console.error("Error analyzing PDF with Gemini:", error);
@@ -67,26 +73,22 @@ app.post('/api/analyze-pdf', upload.single('pdfFile'), async (req, res) => {
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
 
-  // When a player creates a new game
+  // ... (your existing socket logic remains the same)
   socket.on('createRoom', (callback) => {
     const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
     socket.join(roomId);
     console.log(`Room created with ID: ${roomId}`);
-    callback(roomId); // Send the new room ID back to the creator
+    callback(roomId);
   });
 
-  // When a player joins an existing game
   socket.on('joinRoom', (roomId) => {
     socket.join(roomId);
     console.log(`User ${socket.id} joined room ${roomId}`);
-    // Notify the other player in the room that someone has joined
     socket.to(roomId).emit('playerJoined', { playerId: socket.id });
   });
 
-  // Relay game actions (like uploading a file or answering a question)
   socket.on('gameAction', ({ roomId, action, payload }) => {
     console.log(`Action in room ${roomId}:`, action, payload);
-    // Send the action to the other player(s) in the room
     socket.to(roomId).emit('opponentAction', { action, payload });
   });
 
@@ -97,7 +99,7 @@ io.on('connection', (socket) => {
 
 
 // 4. START THE SERVER
-const PORT = process.env.PORT || 3001; // Use a different port
+const PORT = process.env.PORT || 3000; // <-- Updated port to 3000
 server.listen(PORT, () => {
   console.log(`Backend server is running on http://localhost:${PORT}`);
 });
