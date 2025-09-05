@@ -1,8 +1,7 @@
 // 1. IMPORTS AND SETUP
 const express = require('express');
-const http = require('http');
+const http =require('http');
 const { Server } = require("socket.io");
-const mongoose = require("mongoose");
 const cors = require('cors');
 const multer = require('multer');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -11,12 +10,9 @@ require('dotenv').config(); // Load environment variables from .env file
 const app = express();
 const server = http.createServer(app);
 
-// 2. MIDDLEWARE SETUP
 // Use CORS to allow your frontend to communicate with this backend
 app.use(cors({ origin: "http://localhost:5173" })); // IMPORTANT: Replace with your React app's URL
-app.use(express.json());
 
-// Socket.IO setup
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173", // IMPORTANT: Replace with your React app's URL
@@ -30,16 +26,8 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Initialize Google Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// 3. DATABASE CONNECTION
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ MongoDB error:", err));
 
-// 4. API ROUTES
-// Authentication routes
-app.use("/api/auth", require("./routes/auth"));
-
-// PDF Analysis route
+// 2. API ROUTE FOR PDF ANALYSIS
 app.post('/api/analyze-pdf', upload.single('pdfFile'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded.' });
@@ -74,7 +62,8 @@ app.post('/api/analyze-pdf', upload.single('pdfFile'), async (req, res) => {
   }
 });
 
-// 5. REAL-TIME SOCKET.IO LOGIC FOR MULTIPLAYER
+
+// 3. REAL-TIME SOCKET.IO LOGIC FOR MULTIPLAYER
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
 
@@ -106,10 +95,9 @@ io.on('connection', (socket) => {
   });
 });
 
-// 6. START THE SERVER
-const PORT = process.env.PORT || 3000;
+
+// 4. START THE SERVER
+const PORT = process.env.PORT || 3001; // Use a different port
 server.listen(PORT, () => {
-  console.log(`🚀 Backend server running on http://localhost:${PORT}`);
-  console.log(`📡 Socket.IO enabled for real-time communication`);
-  console.log(`🤖 Gemini AI integration active`);
+  console.log(`Backend server is running on http://localhost:${PORT}`);
 });
