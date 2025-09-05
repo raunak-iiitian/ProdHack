@@ -70,14 +70,51 @@ export default function LoginPage() {
 
     setIsLoading(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Here you would typically make an API call
-    console.log(isLogin ? 'Login attempt:' : 'Signup attempt:', formData);
-    
-    setIsLoading(false);
-    alert(isLogin ? 'Login successful!' : 'Account created successfully!');
+    try {
+      if (isLogin) {
+        // Login API call
+        const response = await fetch('http://localhost:3000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
+          })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem('token', data.token);
+          alert('Login successful!');
+        } else {
+          alert(data.error || 'Login failed');
+        }
+      } else {
+        // Signup API call
+        const response = await fetch('http://localhost:3000/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password
+          })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          alert('Account created successfully!');
+        } else {
+          alert(data.error || 'Signup failed');
+        }
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleMode = () => {
