@@ -1,27 +1,28 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom"; // Fixed: Added NavLink import
+import { NavLink } from "react-router-dom";
 import { Timer, Zap, Trophy, Users, Sparkles } from "lucide-react";
-import logo from "./assets/logo.svg"; // Fixed: Correctly importing the logo image
+import logo from "./assets/logo.svg";
 import "./ProdHackHomePage.css";
 
-// Data for features, stats, and footer links is moved outside the component for better readability
+// Data for features, stats, and footer links
 const featuresData = [
-  { icon: Timer, title: "Smart Timer Sessions", description: "Pomodoro technique enhanced with AI-powered break suggestions and focus optimization", color: "feature-pink" },
-  { icon: Trophy, title: "Competitive Battles", description: "Challenge friends and colleagues in productivity battles with real-time leaderboards", color: "feature-blue" },
-  { icon: Zap, title: "Achievement System", description: "Unlock badges, level up your productivity stats, and track your growth over time", color: "feature-yellow" },
+    { icon: Timer, title: "Smart Timer Sessions", description: "Pomodoro technique enhanced with AI-powered break suggestions and focus optimization.", color: "feature-pink" },
+    { icon: Trophy, title: "Competitive Battles", description: "Challenge friends and colleagues in productivity battles with real-time leaderboards.", color: "feature-blue" },
+    { icon: Zap, title: "Achievement System", description: "Unlock badges, level up your productivity stats, and track your growth over time.", color: "feature-yellow" },
 ];
 
 const statsData = [
-  { number: "50K+", label: "Active Users" },
-  { number: "2M+", label: "Sessions Completed" },
-  { number: "95%", label: "Productivity Increase" },
+    { number: "50K+", label: "Active Users" },
+    { number: "2M+", label: "Sessions Completed" },
+    { number: "95%", label: "Productivity Increase" },
 ];
 
 const footerSections = [
-  { title: "Product", links: ["Features", "Pricing", "Updates", "Beta"] },
-  { title: "Community", links: ["Discord", "Forums", "Leaderboards", "Events"] },
-  { title: "Support", links: ["Help Center", "Contact", "Bug Reports", "Feature Requests"] },
+    { title: "Product", links: ["Features", "Pricing", "Updates", "Beta"] },
+    { title: "Community", links: ["Discord", "Forums", "Leaderboards", "Events"] },
+    { title: "Support", links: ["Help Center", "Contact", "Bug Reports", "Feature Requests"] },
 ];
+
 
 export default function ProdHackHomePage() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,12 +40,10 @@ export default function ProdHackHomePage() {
     "About Us": "/about-us",
   };
   
-  // Fixed: Defined navItems from the keys of the navLinks object
   const navItems = Object.keys(navLinks);
 
   return (
     <div className="homepage">
-      {/* Header */}
       <header className={`header ${isScrolled ? "header-scrolled" : ""}`}>
         <div className="header-container">
           <div className="logo">
@@ -62,10 +61,8 @@ export default function ProdHackHomePage() {
           </nav>
         </div>
       </header>
-
-      {/* Main Content */}
+      
       <main className="main">
-        {/* Hero Section */}
         <section className="hero">
           <div className="hero-title-container">
             <h1 className="hero-title">
@@ -79,8 +76,7 @@ export default function ProdHackHomePage() {
           </p>
           <div className="hero-buttons">
             <button className="btn-primary pulse">
-              <Sparkles className="inline-icon" />
-              &nbsp; &nbsp;Start Hacking Now
+              <Sparkles className="inline-icon" /> Start Hacking Now
             </button>
             <button className="btn-secondary">Watch Demo</button>
           </div>
@@ -97,7 +93,6 @@ export default function ProdHackHomePage() {
           </div>
         </section>
 
-        {/* Stats Section */}
         <section className="stats">
           <div className="stats-container">
             <h2 className="stats-title">Join the Productivity Revolution</h2>
@@ -112,7 +107,6 @@ export default function ProdHackHomePage() {
           </div>
         </section>
 
-        {/* CTA Section */}
         <section className="cta">
           <div className="cta-container">
             <h2 className="cta-title">Ready to Level Up?</h2>
@@ -121,14 +115,12 @@ export default function ProdHackHomePage() {
               work habits into an exciting game.
             </p>
             <button className="btn-primary pulse">
-              <Users className="inline-icon-lg" />
-              &nbsp; &nbsp;Join ProdHack Today
+              <Users className="inline-icon-lg" /> Join ProdHack Today
             </button>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-grid">
@@ -148,9 +140,7 @@ export default function ProdHackHomePage() {
                 <ul className="footer-links">
                   {section.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="footer-link">
-                        {link}
-                      </a>
+                      <a href="#" className="footer-link">{link}</a>
                     </li>
                   ))}
                 </ul>
@@ -167,4 +157,3 @@ export default function ProdHackHomePage() {
     </div>
   );
 }
-
