@@ -1,18 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
 
-*{
+/* ✅ FIXED: Scope the font to only login page elements */
+.login-container,
+.login-container * {
   font-family: "Fredericka the Great", serif;
   font-weight: 400;
   font-style: normal;
   font-size: 18px; 
 }
 
-html, body {
+/* Remove the global html, body rule or make it more specific */
+/* html, body {
   font-family: "Fredericka the Great", serif;
   font-weight: 400;
   font-style: normal;
   font-size: 18px;
-}
+} */
 
 /* Container */
 .login-container {

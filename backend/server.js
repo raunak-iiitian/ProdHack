@@ -11,11 +11,11 @@ const app = express();
 const server = http.createServer(app);
 
 // Use CORS to allow your frontend to communicate with this backend
-app.use(cors({ origin: "http://localhost:5173" })); // IMPORTANT: Replace with your React app's URL
+app.use(cors({ origin: "http://localhost:5174" })); // IMPORTANT: Replace with your React app's URL
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // IMPORTANT: Replace with your React app's URL
+    origin: "http://localhost:5174", // IMPORTANT: Replace with your React app's URL
     methods: ["GET", "POST"]
   }
 });
