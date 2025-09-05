@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { Timer, Zap, Trophy, Users, Sparkles } from "lucide-react";
 import logo from "./assets/logo.svg";
 import "./ProdHackHomePage.css";
+import MusicPlayer from "./Music";
+
 
 // Data for features, stats, and footer links
 const featuresData = [
@@ -154,6 +156,7 @@ export default function ProdHackHomePage() {
           </div>
         </div>
       </footer>
+      <MusicPlayer />
     </div>
   );
 }
