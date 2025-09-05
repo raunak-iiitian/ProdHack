@@ -1,10 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from "react-router-dom";
+import App from './App'; // Import the main App component
 
-import StorePage from './StoragePage'
 
-createRoot(document.getElementById('root')).render(
+const root = createRoot(document.getElementById('root'));
+
+// This should be the ONLY render call in this file
+root.render(
   <StrictMode>
-    <StorePage />
-  </StrictMode>,
-)
+     <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
+);
