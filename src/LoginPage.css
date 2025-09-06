@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+
+/* ✅ FIXED: Scope the font to only login page elements */
+.login-container,
+.login-container * {
+  font-family: "Fredericka the Great", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px; 
+}
+
+/* Remove the global html, body rule or make it more specific */
+/* html, body {
+  font-family: "Fredericka the Great", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+} */
+
+/* Container */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(90deg, #ffdef2, #f2e2ff, #e2eeff, #ddfffc, #ffffe3);
+}
+
+.login-wrapper {
+  max-width: 28rem;
+  width: 100%;
+  space-y: 2rem;
+}
+
+/* Header */
+.login-header {
+  text-align: center;
+}
+
+.login-icon {
+  margin: 0 auto 1rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 0.75rem;
+  background: #f2e2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-lock {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #fff;
+}
+
+.login-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.login-subtitle {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+/* Form */
+.login-form-container {
+  margin-top: 2rem;
+}
+
+.login-form-box {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.login-form-fields > * + * {
+  margin-top: 1rem;
+}
+
+/* Labels & Inputs */
+.login-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon-left {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.icon-input {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #9ca3af;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input-field::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #f2e2ff;
+}
+
+.input-with-icon-right {
+  padding-right: 2.5rem;
+}
+
+.input-error {
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+
+.input-error-text {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #dc2626;
+}
+
+/* Password toggle */
+.password-toggle-btn {
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.75rem;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  border: none;
+  background: #f2e2ff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.password-toggle-btn:hover {
+  background: #e2eeff;
+}
+
+.icon-toggle {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.icon-toggle:hover {
+  color: #4b5563;
+}
+
+/* Remember me / Forgot password */
+.login-remember-forgot {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-input {
+  height: 1rem;
+  width: 1rem;
+  accent-color: #f2e2ff;
+  border-radius: 0.25rem;
+}
+
+.checkbox-label {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.forgot-password-btn {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #323232;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.forgot-password-btn:hover {
+  color: #6b6e72;
+}
+
+/* Submit Button */
+.submit-button-wrapper {
+  margin-top: 1.5rem;
+}
+
+.submit-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: #f2e2ff;
+  color: #302f2f;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.submit-button:hover {
+  background: #e2eeff;
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.spinner {
+  margin-right: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+  border: 2px solid transparent;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Toggle login/signup */
+.toggle-login-signup {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.toggle-text {
+  font-size: 1rem;
+  color: #373738;
+}
+
+.toggle-button {
+  font-weight: 500;
+  color: #66667f;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.toggle-button:hover {
+  color: #8eb5ec;
+}
+
+.login-logo {
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img {
+  height: 6.5rem;
+  width: auto;
+  object-fit: contain;
+}
