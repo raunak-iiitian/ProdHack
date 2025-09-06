@@ -1,0 +1,376 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+
+/* ---- Core Styles & Background ---- */
+body {
+  margin: 0;
+  font-family: "Fredericka the Great", serif;
+  font-weight: 400;
+  font-style: normal;
+  /* Updated gradient to match the login page's soft pastel theme */
+  background: linear-gradient(120deg, #e0c3fc, #fbc2eb, #fffacd, #a6c1ee);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  color: #4A5568; /* A softer default text color */
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ---- Glassmorphism Card Style ---- */
+/* A reusable style for all card-like containers */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(100, 100, 100, 0.1);
+}
+
+/* ---- Navbar ---- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px;
+  margin: 20px auto;
+  width: 85%;
+  position: sticky;
+  top: 15px;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: 700;
+  /* Softer gradient for the logo text */
+  background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #4A5568;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #8B5CF6; /* A nice purple for hover */
+}
+
+.nav-coins {
+  font-weight: 700;
+  font-size: 16px;
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+  color: #4A5568;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---- Store Section ---- */
+.store-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.store-title {
+  font-size: 36px;
+  margin: 50px 0;
+  color: #374151;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin: 0 auto;
+  width: 85%;
+}
+
+.item-card {
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px 0 rgba(100, 100, 100, 0.15);
+}
+
+.item-name {
+  font-size: 20px;
+  margin: 8px 0;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.item-type {
+  font-size: 14px;
+  color: #6B7280;
+  margin-bottom: 12px;
+}
+
+.item-price {
+  font-size: 18px;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #4A5568;
+}
+
+/* ---- Buttons ---- */
+/* Base button style for consistency */
+.btn {
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Primary action button (matches Login button) */
+.buy-button, .add-song-btn {
+  background-color: #D8B4FE; /* Soft Lavender */
+  color: #374151;
+}
+
+.buy-button:hover, .add-song-btn:hover {
+  background-color: #c084fc;
+}
+
+/* Secondary button for equipping items */
+.equip-button {
+  background: transparent;
+  border: 2px solid #D8B4FE;
+  color: #8B5CF6;
+  padding: 10px 20px; /* Adjust padding for border */
+}
+
+.equip-button:hover {
+  background-color: rgba(216, 180, 254, 0.2);
+}
+
+.equip-button.equipped {
+  background: #A7F3D0; /* Soft Mint for equipped state */
+  color: #065F46;
+  border-color: #A7F3D0;
+}
+
+/* ---- Playlist Section ---- */
+.playlist-section {
+  margin: 60px auto;
+  width: 85%;
+  padding: 30px;
+  text-align: center;
+}
+
+.playlist-section input {
+  padding: 12px 16px;
+  width: 60%;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  margin-right: 10px;
+  font-family: sans-serif; /* Use a standard font for input */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.playlist-section input:focus {
+  outline: none;
+  border-color: #c084fc;
+  box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.2);
+}
+
+.song-list {
+  margin-top: 25px;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.song-list li {
+  margin: 12px 0;
+  background: rgba(249, 250, 251, 0.8);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+}
+
+.song-list li iframe {
+  border-radius: 12px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* ---- Highlight equipped items ---- */
+.item-card.equipped-card {
+  border: 2px solid #10B981; /* Soft green border */
+  background: rgba(167, 243, 208, 0.25); /* Light mint overlay */
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* ---- Purchased badge for playlist packs ---- */
+.item-card .purchased-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #D8B4FE; /* Lavender */
+  color: #374151;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* ---- Update item-card for relative positioning (for badge) ---- */
+.item-card {
+  position: relative;
+}
+
+/* Highlight equipped items */
+.item-card.equipped-card {
+  border: 2px solid #10B981;
+  background: rgba(167, 243, 208, 0.25);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Purchased badge for playlist packs */
+.item-card .purchased-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #D8B4FE;
+  color: #374151;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* Position relative for badge */
+.item-card {
+  position: relative;
+}
+
+/* Playlist count progress bar */
+.playlist-count-bar {
+  height: 12px;
+  background: #E5E7EB;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.playlist-count-progress {
+  height: 100%;
+  background: #A78BFA;
+  transition: width 0.3s ease;
+  border-radius: 6px;
+}
+/* Highlight equipped items */
+.item-card.equipped-card {
+  border: 2px solid #10B981;
+  background: rgba(167, 243, 208, 0.25);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Purchased badge for playlist packs */
+.item-card .purchased-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #D8B4FE;
+  color: #374151;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* Position relative for badge */
+.item-card {
+  position: relative;
+}
+
+/* Playlist count progress bar */
+.playlist-count-bar {
+  height: 12px;
+  background: #E5E7EB;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.playlist-count-progress {
+  height: 100%;
+  background: #A78BFA;
+  transition: width 0.3s ease;
+  border-radius: 6px;
+}
+
+.spotify-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.spotify-input-container input {
+  padding: 12px 16px;
+  width: 60%;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-family: sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.spotify-input-container input:focus {
+  outline: none;
+  border-color: #c084fc;
+  box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.2);
+}
+
+.spotify-input-container .add-song-btn {
+  padding: 12px 20px;
+  height: 46px; /* match input height */
+  border-radius: 8px;
+}
+
+.song-list li iframe {
+  border-radius: 12px;
+  margin-top: 10px;
+  width: 100%;
+  height: 80px; /* Spotify embed height */
+  min-height: 80px;
+}
