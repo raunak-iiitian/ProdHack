@@ -656,7 +656,7 @@ export default function OneOne() {
           <div className="final-scores">
             <div className="score-card">
               <h4>Your Score</h4>
-              <div className="score-value">{myScore} / {quizData.length}</div>
+              <div className="score-value">{myScore}</div>
               <div className="score-percentage">
                 {Math.round((myScore / quizData.length) * 100)}%
               </div>
@@ -664,7 +664,7 @@ export default function OneOne() {
             
             <div className="score-card">
               <h4>{opponentName}'s Score</h4>
-              <div className="score-value">{opponentScore} / {quizData.length}</div>
+              <div className="score-value">{opponentScore}</div>
               <div className="score-percentage">
                 {Math.round((opponentScore / quizData.length) * 100)}%
               </div>
