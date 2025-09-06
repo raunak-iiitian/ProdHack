@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import './One.css';
 
 // Connect to the backend server
-const socket = io("http://localhost:3001", {
+const socket = io("http://localhost:3000", {
   transports: ['websocket'],
   upgrade: false,
 });
@@ -252,7 +252,7 @@ export default function OneOne() {
 
     try {
       console.log('📤 Uploading PDF for analysis...');
-      const response = await fetch('http://localhost:3001/api/analyze-pdf', {
+      const response = await fetch('http://localhost:3000/api/analyze-pdf', {
         method: 'POST',
         body: formData
       });

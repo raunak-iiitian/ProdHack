@@ -59,7 +59,9 @@ export default function ProdHackHomePage() {
                 <span className="nav-underline"></span>
               </NavLink>
             ))}
+            <NavLink to="/login" className="nav-link">
             <button className="btn-primary">Login/Sign Up</button>
+            </NavLink>
           </nav>
         </div>
       </header>
