@@ -1,0 +1,60 @@
+.music-player {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(25, 25, 25, 0.95);
+  border-radius: 40px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  color: #fff;
+  z-index: 999;
+  transition: width 0.3s ease, padding 0.3s ease;
+  width: 50px; /* collapsed size */
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.music-player:hover {
+  width: 180px; /* expands on hover */
+  padding: 8px 15px;
+}
+
+.music-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #953ec4;
+  flex-shrink: 0;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.music-player:hover .player-controls {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.player-controls button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.player-controls button:hover {
+  transform: scale(1.2);
+  color: #953ec4;
+  
+}
