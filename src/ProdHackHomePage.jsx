@@ -79,9 +79,11 @@ export default function ProdHackHomePage() {
             productivity addictive.
           </p>
           <div className="hero-buttons">
-            <button className="btn-primary pulse">
-              <Sparkles className="inline-icon" /> Start Hacking Now
-            </button>
+           <NavLink to="/PersonalP">
+             <button className="btn-primary pulse">
+               <Sparkles className="inline-icon" /> Start Hacking Now
+             </button>
+           </NavLink>
             <button className="btn-secondary">Watch Demo</button>
           </div>
           <div className="features">
@@ -133,10 +135,10 @@ export default function ProdHackHomePage() {
                 <img src={logo} alt="ProdHack Logo" className="logo-img" />
                 <h2>ProdHack</h2>
               </div>
-              <p className="footer-text">
+              <h3 className="footer-text">
                 Revolutionizing productivity through gamification and
                 competitive engagement.
-              </p>
+              </h3>
             </div>
             {footerSections.map((section, index) => (
               <div key={index}>
@@ -152,9 +154,9 @@ export default function ProdHackHomePage() {
             ))}
           </div>
           <div className="footer-bottom">
-            <p className="footer-copy">
+            <h2 className="footer-copy">
               © 2025 ProdHack. Made with 💜 for productive humans.
-            </p>
+            </h2>
           </div>
         </div>
       </footer>

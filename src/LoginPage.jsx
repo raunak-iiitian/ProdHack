@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff,Lock, Mail, User } from 'lucide-react';
 import './LoginPage.css';
+import { Navigate, redirect } from 'react-router-dom';
+
+
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,6 +16,7 @@ export default function LoginPage() {
     confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
+ 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
