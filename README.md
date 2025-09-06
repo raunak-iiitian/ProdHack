@@ -1,12 +1,36 @@
-# React + Vite
+# ProdHack 🚀  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ProdHack is a *productivity-focused web application* designed to make studying and working more engaging and competitive. It combines popular productivity techniques with gamification and AI to help users stay focused, learn better, and challenge themselves.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features  
 
-## Expanding the ESLint configuration
+- *⏱ Pomodoro Timer* – Stay productive with customizable timer sessions using the Pomodoro technique.  
+- *🎵 Lofi Music Player* – Listen to lofi beats while working or studying for better focus.  
+- *⚔ 1v1 Battle Mode* (Highlight Feature)  
+  - Upload a PDF of the topic you want to study.  
+  - AI extracts *subtopics* from the material.  
+  - Set a *study session time* as per your preference.  
+  - After the session, attempt an *AI-generated quiz* based on the PDF.  
+  - Earn *scores* and compete with friends/others in real-time battles.  
+- *📊 Leaderboard & Achievements* – Track progress, earn badges, and compete with others.  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠 Tech Stack  
+
+- *Frontend:* React.js, Vite, TailwindCSS, shadcn/ui, lucide-react  
+- *Backend:* Node.js, Express.js  
+- *Database:* MongoDB / PostgreSQL (based on your implementation)  
+- *AI Integration:* PDF parsing & quiz generation via AI models  
+- *Other:* React Router, Context API/Redux for state management  
+
+---
+
+## 🚀 Getting Started  
+
+### 1. Clone the repository  
+```bash
+git clone https://github.com/your-username/prodhack.git
+cd prodhack
