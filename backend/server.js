@@ -1,79 +1,47 @@
-// server.js
+// 1. IMPORTS & SETUP
 const express = require('express');
 const http = require('http');
 const { Server } = require("socket.io");
 const cors = require('cors');
 const multer = require('multer');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const connectDB = require('./db'); // <-- IMPORT DATABASE CONNECTION
-const authRoutes = require('./routes/auth'); // <-- IMPORT AUTH ROUTES
 require('dotenv').config();
 
+// <-- DB & ROUTE IMPORTS -->
+const connectDB = require('./db'); 
+const authRoutes = require('./routes/auth');
+
+// <-- INITIALIZE APP & SERVER -->
 const app = express();
 const server = http.createServer(app);
 
-// Connect to Database
-connectDB(); // <-- CALL THE CONNECTION FUNCTION
+// 2. DATABASE CONNECTION
+connectDB();
 
-// Init Middleware
-app.use(express.json()); // <-- ADD THIS to parse JSON request bodies
-app.use(cors({ origin: "http://localhost:5173" }));
-const cors = require('cors');
-const multer = require('multer');
-const { Server } = require('socket.io');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-require('dotenv').config();
-
-const app = express();
-
-// CORS
+// 3. MIDDLEWARE
 app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'],
   credentials: true
 }));
-app.use(express.json());
+app.use(express.json()); // Middleware to parse JSON request bodies
 
-// HTTP + Socket.IO setup
-const server = http.createServer(app);
+// 4. SOCKET.IO SETUP
 const io = new Server(server, {
-
-
-
-const upload = multer({ storage: multer.memoryStorage() });
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  cors: { 
+  cors: {
     origin: ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'],
     methods: ['GET', 'POST'],
     credentials: true
   }
 });
 
-// ROOM MANAGEMENT
+// 5. GLOBAL STATE MANAGEMENT
 const rooms = new Map(); // roomId -> { players: Set, status: string, host: string, data: object }
 
-// Firestore setup (optional)
-let admin = null, db = null;
-try {
-  admin = require('firebase-admin');
-  const serviceAccount = require('./serviceAccountKey.json');
-  admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
-  db = admin.firestore();
-  console.log('✅ Firestore initialized');
-} catch (error) {
-  console.log('ℹ️ Firestore not configured (optional)');
-}
-
-// SOCKET.IO
+// 6. SOCKET.IO EVENT HANDLERS
 io.on('connection', (socket) => {
   console.log(`🔗 Player connected: ${socket.id}`);
 
-
-// 2. DEFINE ROUTES
-app.use('/api/auth', authRoutes); // <-- USE YOUR AUTH ROUTES
-
-// API ROUTE FOR PDF ANALYSIS
   // Create room
-
   socket.on('createRoom', (callback) => {
     const roomId = Math.random().toString(36).slice(2, 8).toUpperCase();
     rooms.set(roomId, {
@@ -126,205 +94,116 @@ app.use('/api/auth', authRoutes); // <-- USE YOUR AUTH ROUTES
       room.sessionStarted = new Date();
     } else if (action === 'quizStarted') {
       room.status = 'quizzing';
-      // Initialize scores and answered questions tracking
       room.scores = {};
       room.answers = {};
       for (const playerId of room.players) {
         room.scores[playerId] = 0;
-        room.answers[playerId] = {}; // Tracks { questionIndex: true }
+        room.answers[playerId] = {};
       }
     }
     socket.to(roomId).emit('opponentAction', { action, payload });
   });
 
-  // Quiz answers (SERVER-AUTHORITATIVE & DEDUPLICATED)
+  // Quiz answers
   socket.on('quizAnswer', ({ roomId, questionIndex, chosenOption }) => {
     const room = rooms.get(roomId);
-    // Validate that the game is in a state to receive answers
-    if (!room || room.status !== 'quizzing' || !room.quizData || !room.quizData[questionIndex]) {
-      return;
-    }
+    if (!room || room.status !== 'quizzing' || !room.quizData || !room.quizData[questionIndex]) return;
+    if (room.answers[socket.id] && room.answers[socket.id][questionIndex]) return;
 
-    //
-    // ⬇️ CRITICAL FIX: Prevent duplicate answers for the same question ⬇️
-    //
-    if (room.answers[socket.id] && room.answers[socket.id][questionIndex]) {
-      console.log(`Player ${socket.id} already answered question ${questionIndex}. Ignoring.`);
-      return; // Stop execution if already answered
-    }
-
-    // Mark the question as answered for this player *immediately* to prevent race conditions
     if (!room.answers[socket.id]) room.answers[socket.id] = {};
     room.answers[socket.id][questionIndex] = true;
 
-    // Server validates the answer
     const correctAnswer = room.quizData[questionIndex].answer;
     const isCorrect = (chosenOption === correctAnswer);
 
-    // Update score on the server
     if (isCorrect) {
       room.scores[socket.id] = (room.scores[socket.id] || 0) + 1;
     }
 
-    // Let the opponent's UI know what was answered for feedback
     socket.to(roomId).emit('opponentAnswered', { questionIndex, chosenOption, isCorrect });
-
-    // Broadcast the complete, authoritative score object to BOTH players
     io.to(roomId).emit('scoreUpdate', room.scores);
   });
 
-
   // Disconnect
   socket.on('disconnect', () => {
+    console.log(`🔌 Player disconnected: ${socket.id}`);
     const roomId = socket.data.roomId;
     if (!roomId) return;
-
     const room = rooms.get(roomId);
     if (!room) return;
-
     room.players.delete(socket.id);
 
     if (room.players.size === 0) {
       rooms.delete(roomId);
+      console.log(`🗑️ Room ${roomId} deleted.`);
     } else {
       room.status = 'waiting';
       socket.to(roomId).emit('opponentDisconnected');
     }
   });
-
-  // Room Status
-  socket.on('getRoomStatus', (roomId, callback) => {
-    const room = rooms.get(roomId);
-    if (typeof callback === 'function') {
-      callback({
-        exists: !!room,
-        size: room ? room.players.size : 0,
-        status: room ? room.status : 'unknown',
-        data: room || {}
-      });
-    }
-  });
 });
 
-// MULTER for PDF upload
+
+// 7. API ROUTES
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
   fileFilter: (req, file, cb) => {
     if (file.mimetype === 'application/pdf') cb(null, true);
     else cb(new Error('Only PDF files are allowed'), false);
   }
 });
-
-// GEMINI AI setup
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// PDF Analysis Endpoint
+// <-- AUTHENTICATION ROUTES -->
+app.use('/api/auth', authRoutes);
+
+// <-- PDF ANALYSIS ROUTE -->
 app.post('/api/analyze-pdf', upload.single('pdfFile'), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ success: false, error: 'No file uploaded.' });
-  }
-
-  if (!process.env.GEMINI_API_KEY) {
-    console.error('❌ Gemini API key not configured.');
-    return res.status(500).json({ success: false, error: 'Server configuration error: API key missing.' });
-  }
-
+  // ... (Using the more robust version of your PDF analysis logic)
+  if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded.' });
+  if (!process.env.GEMINI_API_KEY) return res.status(500).json({ success: false, error: 'Server configuration error: API key missing.' });
+  
   const prompt = `
-        Analyze the provided PDF for a study session. Suggest 10 key topics or concepts that a student should focus on to best understand the material.
-        
-        Also, generate a 10-question multiple-choice quiz based on these core concepts.
-        
-        Return a single, clean JSON object with the following structure:
-        {
-          "topics": ["<Suggested Topic 1>", ...],
-          "quiz": [
-            {
-              "question": "<Question text>",
-              "options": ["<Option A>", "<Option B>", "<Option C>", "<Option D>"],
-              "answer": "<The correct option text>"
-            },
-            ...
-          ]
-        }
-        
-        Ensure the 'answer' value for each question is present in its 'options' array. Do not include any text, explanations, or markdown formatting outside of this JSON object.
-    `;
+        Analyze the provided PDF for a study session. Suggest 10 key topics or concepts that a student should focus on to best understand the material. Also, generate a 10-question multiple-choice quiz based on these core concepts. Return a single, clean JSON object with the following structure:
+        { "topics": ["<Topic 1>", ...], "quiz": [{ "question": "<Question>", "options": ["<A>", "<B>", "<C>", "<D>"], "answer": "<Correct>" }, ...] }
+        Ensure the 'answer' value is present in its 'options' array. Do not include any text, explanations, or markdown formatting outside of this JSON object.`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    const filePart = {
-      inlineData: {
-        data: req.file.buffer.toString("base64"),
-        mimeType: req.file.mimetype
-      }
-    };
-
+    const filePart = { inlineData: { data: req.file.buffer.toString("base64"), mimeType: req.file.mimetype } };
     const result = await model.generateContent([prompt, filePart]);
-
-    const response = result.response;
-    const responseText = response.text();
-
-
+    const responseText = result.response.text();
+    
     let data;
     try {
       data = JSON.parse(responseText);
     } catch (parseError) {
-      console.warn('⚠️ Initial JSON parse failed, trying to extract from markdown.');
       const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
-      if (jsonMatch && jsonMatch[1]) {
-        data = JSON.parse(jsonMatch[1]);
-      } else {
-        throw new Error('Invalid or malformed JSON response from AI.');
-      }
+      if (jsonMatch && jsonMatch[1]) data = JSON.parse(jsonMatch[1]);
+      else throw new Error('Invalid or malformed JSON response from AI.');
     }
 
     if (!data.topics || !data.quiz || !Array.isArray(data.topics) || !Array.isArray(data.quiz)) {
       throw new Error('AI response is missing required "topics" or "quiz" arrays.');
     }
 
-    return res.json({
-      success: true,
-      topics: data.topics.slice(0, 10),
-      quiz: data.quiz.slice(0, 10),
-      studyDuration: 15
-    });
+    res.json({ success: true, topics: data.topics.slice(0, 10), quiz: data.quiz.slice(0, 10), studyDuration: 15 });
 
   } catch (error) {
     console.error('❌ Gemini AI Error:', error);
-
-    return res.json({
-      success: true,
-      isFallback: true,
+    res.json({
+      success: true, isFallback: true,
       topics: Array.from({ length: 10 }, (_, i) => `Analysis Failed: Topic ${i + 1}`),
-      quiz: Array.from({ length: 10 }, (_, i) => ({
-        question: `This is fallback question #${i + 1}. The AI analysis failed.`,
-        options: ["Option A", "Option B", "Option C", "Option D"],
-        answer: "Option A"
-      })),
+      quiz: Array.from({ length: 10 }, (_, i) => ({ question: `This is fallback question #${i + 1}.`, options: ["A", "B", "C", "D"], answer: "A" })),
       studyDuration: 15
     });
   }
 });
 
-// Debug & Health
-app.get('/api/rooms', (req, res) => {
-  const roomsData = Array.from(rooms.entries()).map(([roomId, data]) => ({
-    roomId,
-    playerCount: data.players.size,
-    players: Array.from(data.players),
-    status: data.status
-  }));
-  res.json({ rooms: roomsData });
-});
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString(), activeRooms: rooms.size });
-});
-
-// Start server
-const PORT = process.env.PORT || 3001;
+// 8. START THE SERVER
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`🚀 Backend running on http://localhost:${PORT}`);
   console.log(`📡 Socket.IO ready`);
